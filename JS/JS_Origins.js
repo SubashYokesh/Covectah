@@ -2,59 +2,29 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const { json } = require('stream/consumers');
-let BotJson;
 
 const filePath = path.resolve(__dirname,'bot.json');
+file = fs.readFileSync(filePath, 'utf8');
+const BotConfig = JSON .parse(file);
 
 
-
-function doSome(callback){
-    file = fs.readFile(filePath, 'utf8', (err, jsonString) => {
-        // if (err) {
-        //   console.log("Error reading file:", err);
-        //   return;
-        // }
-        callback(err, jsonString)
-        //BotJson = jsonString;
-        //console.log(BotJson)
-      });
-}
-
-doSome(function (err, jsonString){
-    if (err) {
-        console.log("Error reading file:", err);
-        return;
-      }
-      BotJson = jsonString;
-      console.log(BotJson)
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-console.log(BotJson)
-//const BotConfig = JSON.parse(BotJson);
-
-// const client = new Discord.Client({ intents: [
-//     Discord.GatewayIntentBits.Guilds,
-//     Discord.GatewayIntentBits.GuildMessages
-//   ]})
+const client = new Discord.Client({ intents: [
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages
+  ]})
   
 
-// const token = BotConfig.token;
+const token = BotConfig.Token;
 
-// client.on('ready', () => {
-//   console.log(`Logged in as ${client.user.tag}!`);
-// });
+
+client.on('ready', async () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+  const userId = BotConfig.Users.Subash;
+  const user = await client.users.fetch(userId);
+  //console.log(login)
+  //user.send('Hi').catch(console.error);
+  console.log(user)
+});
 
 // client.on('message', (message) => {
 //   if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -78,4 +48,12 @@ console.log(BotJson)
 //   }
 // });
 
-// client.login(token);
+login = client.login(token);
+//
+
+
+
+
+
+
+// client.users.cache.get('<id>').send('<message>');
